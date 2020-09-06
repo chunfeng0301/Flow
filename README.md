@@ -5,14 +5,14 @@ representation flow for action recognition 用PaddlePaddle复现
 论文地址：https://arxiv.org/pdf/1810.01455 
 论文Github地址：https://github.com/piergiaj/representation-flow-cvpr19
 
-#论文数据集
+# 论文数据集
 HMDB51数据集
 数据集地址
 https://aistudio.baidu.com/aistudio/datasetdetail/47656
 
 
 
-#文件结构
+# 文件结构
 avi2jpg.py	avi视频中提取jpg图像帧
 /hmdbjpg/   用于存储将视频变换的jpg文件及split1 train.list（split1） test.list（split1）
 jpg2pkl.py	按（split1）划分数据集到train.list（split1） test.list（split1）
@@ -22,11 +22,11 @@ notebook.py	AI Studio 的notebook程序
 model/baseline_2d_resnets_pp.py	ResNet50主干网络结构+flow 主干网络为2D ResNet50
 model/rep_flow_layer_pp.py	光流表示层网络结构
 configs/tsn.txt 配置文件
-#数据集处理
+# 数据集处理
 解压：
 !unzip -q /home/aistudio/data/data47656/hmdb51_org.rar -d data
 
-##建立第一次解压文件夹
+## 建立第一次解压文件夹
 import os
 video_src_src_path = "/home/aistudio/data/hmdb"
 #批量打印命令代码
@@ -36,7 +36,7 @@ import cv2
 
 
 
-##建立第二次解压文件夹
+## 建立第二次解压文件夹
 label_name = os.listdir("/home/aistudio/data/hmdb")
 video_src_src_path2 = "/home/aistudio/data/hmdb/"
 for rarflie in label_name:
@@ -48,7 +48,7 @@ for rarflie in label_name:
     #!rar x  "/home/aistudio/data/sit.rar" -d data/hmdb
 if not os.path.exists(video_src_src_path):
     os.mkdir(video_src_src_path)
-##建立第二次解压生成的批处理程序，用如下批处理程序在AI Studio中运行，解压所有种类视频文件
+## 建立第二次解压生成的批处理程序，用如下批处理程序在AI Studio中运行，解压所有种类视频文件
 !rar x /home/aistudio/data/hmdb/hug.rar -d hmdbjpg/
 !rar x /home/aistudio/data/hmdb/draw_sword.rar -d hmdbjpg/
 !rar x /home/aistudio/data/hmdb/ride_bike.rar -d hmdbjpg/
@@ -101,17 +101,17 @@ if not os.path.exists(video_src_src_path):
 !rar x /home/aistudio/data/hmdb/situp.rar -d hmdbjpg/
 !rar x /home/aistudio/data/hmdb/climb_stairs.rar -d hmdbjpg/
 
-#将文件转成jpg
+# 将文件转成jpg
 !python avi2jpg.py
 
-#将文件转换为pkl  
+# 将文件转换为pkl  
 ## 注意： 需要train_split1.txt test_split1.txt
 !python jpg2pkl.py
 
 
-#运行训练
+# 运行训练
 python train.py --use_gpu True 
 
-#模型test
+# 模型test
 !python eval.py --weights 'checkpoints_models/tsn_model.pdparams' --use_gpu True
 
